@@ -1,0 +1,6 @@
+---
+- name: install wordpress using a role
+  hosts: node2.example.com
+  
+  roles:
+    - wordpress

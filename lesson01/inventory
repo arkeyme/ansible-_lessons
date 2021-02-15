@@ -1,0 +1,9 @@
+[group1]
+node1.example.com
+
+[group2]
+node2.example.com
+
+[webservers:children]
+group1
+group2

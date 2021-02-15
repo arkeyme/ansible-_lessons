@@ -1,0 +1,15 @@
+node1.example.com
+node2.example.com
+
+[lamptest]
+node1.example.com
+
+[lampprod]
+node1.example.com
+node2.example.com
+
+[nodes:children]
+lamptest
+lampprod
+
+

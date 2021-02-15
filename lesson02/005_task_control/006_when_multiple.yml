@@ -1,0 +1,14 @@
+---
+- name: using multiple conditions
+  hosts: node1.example.com
+  tasks:
+  - debug:
+      var: ansible_distribution
+  - debug:
+      var: ansible_memfree_mb
+  - package:
+      name: httpd
+      state: installed
+    when: 
+      - ansible_distribution == "CentOS"
+      - ansible_memfree_mb > 51 

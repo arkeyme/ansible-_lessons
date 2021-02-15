@@ -1,0 +1,13 @@
+---
+- name: My playbook
+  hosts: node1.example.com
+  tasks:
+  - name: install Apache 1
+    yum:
+      name: httpd
+    when: ansible_facts.os_family == "RedHat"
+  - name: install Apache 2
+    yum:
+      name: apache2
+    when: ansible_facts.os_family == "Debian"
+...

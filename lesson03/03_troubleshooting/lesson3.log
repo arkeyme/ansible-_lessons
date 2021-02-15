@@ -1,0 +1,97 @@
+2021-02-12 21:42:56,969 p=15772 u=ansible n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: No JSON object could be decoded
+
+Syntax Error while loading YAML.
+  found unacceptable key (unhashable type: 'AnsibleMapping')
+
+The error appears to be in '/home/ansible/lesson03/03_troubleshooting/01_vsftpd.yml': line 8, column 11, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - name: install vsftpd
+    yum: {{ package }}
+          ^ here
+We could be wrong, but this one looks like it might be an issue with
+missing quotes. Always quote template expression brackets when they
+start a value. For instance:
+
+    with_items:
+      - {{ foo }}
+
+Should be written as:
+
+    with_items:
+      - "{{ foo }}"
+
+2021-02-12 21:43:36,480 p=15781 u=ansible n=ansible | PLAY [deploy vsftpd] *********************************************************************************************************
+2021-02-12 21:43:36,496 p=15781 u=ansible n=ansible | TASK [Gathering Facts] *******************************************************************************************************
+2021-02-12 21:43:39,378 p=15781 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:43:39,417 p=15781 u=ansible n=ansible | TASK [install vsftpd] ********************************************************************************************************
+2021-02-12 21:43:41,105 p=15781 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:43:41,139 p=15781 u=ansible n=ansible | TASK [enable vsftpd] *********************************************************************************************************
+2021-02-12 21:43:42,716 p=15781 u=ansible n=ansible | fatal: [node2.example.com]: FAILED! => {"changed": false, "msg": "Could not find the requested service vsftpd: host"}
+2021-02-12 21:43:42,717 p=15781 u=ansible n=ansible | PLAY RECAP *******************************************************************************************************************
+2021-02-12 21:43:42,718 p=15781 u=ansible n=ansible | node2.example.com          : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-12 21:44:40,693 p=15828 u=ansible n=ansible | ansible-playbook 2.9.15
+  config file = /home/ansible/lesson03/03_troubleshooting/ansible.cfg
+  configured module search path = [u'/home/ansible/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /bin/ansible-playbook
+  python version = 2.7.5 (default, Nov 16 2020, 22:23:17) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+2021-02-12 21:44:40,693 p=15828 u=ansible n=ansible | Using /home/ansible/lesson03/03_troubleshooting/ansible.cfg as config file
+2021-02-12 21:44:41,103 p=15828 u=ansible n=ansible | PLAYBOOK: 01_vsftpd.yml ******************************************************************************************************
+2021-02-12 21:44:41,103 p=15828 u=ansible n=ansible | 1 plays in 01_vsftpd.yml
+2021-02-12 21:44:41,105 p=15828 u=ansible n=ansible | PLAY [deploy vsftpd] *********************************************************************************************************
+2021-02-12 21:44:41,121 p=15828 u=ansible n=ansible | TASK [Gathering Facts] *******************************************************************************************************
+2021-02-12 21:44:43,190 p=15828 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:44:43,191 p=15828 u=ansible n=ansible | META: ran handlers
+2021-02-12 21:44:43,232 p=15828 u=ansible n=ansible | TASK [install vsftpd] ********************************************************************************************************
+2021-02-12 21:44:44,809 p=15828 u=ansible n=ansible | ok: [node2.example.com] => {"changed": false, "msg": "", "rc": 0, "results": []}
+2021-02-12 21:44:44,847 p=15828 u=ansible n=ansible | TASK [enable vsftpd] *********************************************************************************************************
+2021-02-12 21:44:46,382 p=15828 u=ansible n=ansible | fatal: [node2.example.com]: FAILED! => {"changed": false, "msg": "Could not find the requested service vsftpd: host"}
+2021-02-12 21:44:46,384 p=15828 u=ansible n=ansible | PLAY RECAP *******************************************************************************************************************
+2021-02-12 21:44:46,384 p=15828 u=ansible n=ansible | node2.example.com          : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-12 21:52:34,249 p=15918 u=ansible n=ansible | PLAY [sample of stat and assert] *********************************************************************************************
+2021-02-12 21:52:34,265 p=15918 u=ansible n=ansible | TASK [Gathering Facts] *******************************************************************************************************
+2021-02-12 21:52:36,589 p=15918 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:52:36,632 p=15918 u=ansible n=ansible | TASK [stat a directory] ******************************************************************************************************
+2021-02-12 21:52:37,458 p=15918 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:52:37,506 p=15918 u=ansible n=ansible | TASK [assert that /etc is a directory] ***************************************************************************************
+2021-02-12 21:52:37,566 p=15918 u=ansible n=ansible | ok: [node2.example.com] => {
+    "changed": false, 
+    "msg": "All assertions passed"
+}
+2021-02-12 21:52:37,568 p=15918 u=ansible n=ansible | PLAY RECAP *******************************************************************************************************************
+2021-02-12 21:52:37,569 p=15918 u=ansible n=ansible | node2.example.com          : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-12 21:53:02,055 p=15954 u=ansible n=ansible | PLAY [sample of stat and assert] *********************************************************************************************
+2021-02-12 21:53:02,072 p=15954 u=ansible n=ansible | TASK [Gathering Facts] *******************************************************************************************************
+2021-02-12 21:53:03,870 p=15954 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:53:03,907 p=15954 u=ansible n=ansible | TASK [stat a directory] ******************************************************************************************************
+2021-02-12 21:53:04,720 p=15954 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-12 21:53:04,758 p=15954 u=ansible n=ansible | TASK [assert that /etc is a directory] ***************************************************************************************
+2021-02-12 21:53:04,814 p=15954 u=ansible n=ansible | fatal: [node2.example.com]: FAILED! => {
+    "assertion": "sta.stat.isdir", 
+    "changed": false, 
+    "evaluated_to": false, 
+    "msg": "Assertion failed"
+}
+2021-02-12 21:53:04,816 p=15954 u=ansible n=ansible | PLAY RECAP *******************************************************************************************************************
+2021-02-12 21:53:04,816 p=15954 u=ansible n=ansible | node2.example.com          : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-14 12:51:18,354 p=29131 u=ansible n=ansible | PLAY [show how debug works] *************************************************************************************************************************
+2021-02-14 12:51:18,370 p=29131 u=ansible n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************
+2021-02-14 12:51:21,023 p=29131 u=ansible n=ansible | ok: [node1.example.com]
+2021-02-14 12:51:21,059 p=29131 u=ansible n=ansible | ok: [node2.example.com]
+2021-02-14 12:51:21,095 p=29131 u=ansible n=ansible | TASK [show value of a fact] *************************************************************************************************************************
+2021-02-14 12:51:21,148 p=29131 u=ansible n=ansible | ok: [node1.example.com] => {
+    "msg": "this system has 400 available ram"
+}
+2021-02-14 12:51:21,184 p=29131 u=ansible n=ansible | ok: [node2.example.com] => {
+    "msg": "this system has 680 available ram"
+}
+2021-02-14 12:51:21,222 p=29131 u=ansible n=ansible | TASK [FIXME show a custom variable] *****************************************************************************************************************
+2021-02-14 12:51:21,263 p=29131 u=ansible n=ansible | skipping: [node1.example.com]
+2021-02-14 12:51:21,276 p=29131 u=ansible n=ansible | skipping: [node2.example.com]
+2021-02-14 12:51:21,279 p=29131 u=ansible n=ansible | PLAY RECAP ******************************************************************************************************************************************
+2021-02-14 12:51:21,279 p=29131 u=ansible n=ansible | node1.example.com          : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+2021-02-14 12:51:21,280 p=29131 u=ansible n=ansible | node2.example.com          : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
